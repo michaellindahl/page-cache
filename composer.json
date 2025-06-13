@@ -1,7 +1,10 @@
 {
     "name": "silber/page-cache",
     "description": "Caches responses as static files on disk for lightning fast page loads.",
-    "keywords": ["laravel", "cache"],
+    "keywords": [
+        "laravel",
+        "cache"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -20,25 +23,34 @@
         }
     },
     "require": {
-        "php": ">=5.5.9",
-        "illuminate/contracts": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0",
-        "illuminate/filesystem": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0",
-        "symfony/http-foundation": "2.6 - 4|^5.0|^6.0"
+        "php": "^8.2",
+        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/filesystem": "^11.0|^12.0",
+        "symfony/http-foundation": "^7.0"
     },
     "require-dev": {
-        "illuminate/container": "5.0 - 5.8|^6.0|^7.0|^8.0|^9.0",
-        "mockery/mockery": "^0.9.5",
-        "phpunit/phpunit": "^4.8|^9.5",
-        "symfony/var-dumper": "^4.4|^5.0|^6.0"
+        "illuminate/container": "^11.0|^12.0",
+        "laravel/pint": "^1.14",
+        "mockery/mockery": "^1.6.9",
+        "pestphp/pest": "^3.7",
+        "phpunit/phpunit": "^11.0",
+        "symfony/var-dumper": "^7.0"
     },
     "suggest": {
         "illuminate/console": "Allows clearing the cache via artisan"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "laravel": {
             "providers": [
                 "Silber\\PageCache\\LaravelServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     }
 }

@@ -1,9 +1,9 @@
 # Laravel Page Cache
 
-<a href="https://github.com/JosephSilber/page-cache/actions"><img src="https://github.com/JosephSilber/page-cache/workflows/Tests/badge.svg" alt="Build Status"></a>
-[![Latest Stable Version][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![License][ico-license]](LICENSE.txt)
+[![Build Status][icon-build]][link-build]
+[![Latest Stable Version][icon-version]][link-packagist]
+[![Total Downloads][icon-downloads]][link-downloads]
+[![License][icon-license]](LICENSE.txt)
 
 This package allows you to easily cache responses as static files on disk for lightning fast page loads.
 
@@ -26,7 +26,7 @@ This package allows you to easily cache responses as static files on disk for li
 
 While static site builders such as [Jekyll](https://jekyllrb.com/) and [Jigsaw](https://jigsaw.tighten.co/) are extremely popular these days, dynamic PHP sites still offer a lot of value even for a site that is mostly static. A proper PHP site allows you to easily add dynamic functionality wherever needed, and also means that there's no build step involved in pushing updates to the site.
 
-That said, for truly static pages on a site there really is no reason to have to boot up a full PHP app just to serve a static page. Serving a simple HTML page from disk is infinitely faster and less taxing on the server.
+That said, for truly static pages on a site, there really is no reason to have to boot up a full PHP app just to serve a static page. Serving a simple HTML page from disk is infinitely faster and less taxing on the server.
 
 The solution? Full page caching.
 
@@ -34,20 +34,14 @@ Using the middleware included in this package, you can selectively cache the res
 
 ## Installation
 
+> **Note**: The current version of Page Cache requires PHP 8.2+ and Laravel 11+.
+>
+> If you're on Laravel v5-v10, use [Page Cache v1.0.9](https://github.com/JosephSilber/page-cache/tree/v1.0.9).
+
 Install the `page-cache` package with composer:
 
 ```
 $ composer require silber/page-cache
-```
-
-### Service Provider
-
-> **Note**: If you're using Laravel 5.5+, the service provider will be registered automatically. You can simply skip this step entirely.
-
-Open `config/app.php` and add a new item to the `providers` array:
-
-```php
-Silber\PageCache\LaravelServiceProvider::class,
 ```
 
 ### Middleware
@@ -65,10 +59,10 @@ protected $middlewareGroups = [
 
 The middleware is smart enough to only cache responses with a 200 HTTP status code, and only for GET requests.
 
-If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `routeMiddleware` array:
+If you want to selectively cache only specific requests to your site, you should instead add a new mapping to the `middlewareAliases` array:
 
 ```php
-protected $routeMiddleware = [
+protected $middlewareAliases = [
     'page-cache' => \Silber\PageCache\Middleware\CacheResponse::class,
     /* ... keep the existing mappings here */
 ];
@@ -113,7 +107,7 @@ In order to serve the static files directly once they've been cached, you need t
 
 ### Ignoring the cached files
 
-To make sure you don't commit your locally cached files to your git repository, add this line to your `.gitignore` file:
+To make sure you don't commit your locally-cached files to your git repository, add this line to your `.gitignore` file:
 
 ```
 /public/page-cache
@@ -125,7 +119,7 @@ To make sure you don't commit your locally cached files to your git repository, 
 
 > **Note:** If you've added the middleware to the global `web` group, then all successful GET requests will automatically be cached. No need to put the middleware again directly on the route.
 >
-> If you instead registered it as a route middleware, you should use the middleware on whichever routes you want to be cached.
+> If you instead registered it in `middlewareAliases`, you should use the middleware on whichever routes you want to be cached.
 
 To cache the response of a given request, use the `page-cache` middleware:
 
@@ -133,7 +127,7 @@ To cache the response of a given request, use the `page-cache` middleware:
 Route::middleware('page-cache')->get('posts/{slug}', 'PostController@show');
 ```
 
-Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent  requests for this post will be served directly from disk, never even hitting your app!
+Every post will now be cached to a file under the `public/page-cache` directory, closely matching the URL structure of the request. All subsequent requests for this post will be served directly from disk, never even hitting your app!
 
 ### Clearing the cache
 
@@ -143,7 +137,7 @@ Since the responses are cached to disk as static files, any updates to those pag
 php artisan page-cache:clear
 ```
 
-As a rule of thumb, it's good practice to add this to your deployment script. That way, whenever you push an update to your site the page cache will automatically be cleared.
+As a rule of thumb, it's good practice to add this to your deployment script. That way, whenever you push an update to your site, the page cache will automatically be cleared.
 
 If you're using [Forge](https://forge.laravel.com)'s Quick Deploy feature, you should add this line to the end of your Deploy Script. This'll ensure that the cache is cleared whenever you push an update to your site.
 
@@ -230,11 +224,11 @@ tap(app()->make(Cache::class))->setCachePath('page-cache-laravel')->forget(route
 
 The Page Cache package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-[ico-downloads]: https://poser.pugx.org/silber/page-cache/downloads
-[ico-license]: https://poser.pugx.org/silber/page-cache/license
-[ico-travis]: https://travis-ci.org/JosephSilber/page-cache.svg
-[ico-version]: https://poser.pugx.org/silber/page-cache/v/stable
+[icon-build]: https://github.com/JosephSilber/page-cache/workflows/Tests/badge.svg
+[icon-downloads]: https://poser.pugx.org/silber/page-cache/downloads
+[icon-license]: https://poser.pugx.org/silber/page-cache/license
+[icon-version]: https://poser.pugx.org/silber/page-cache/v/stable
 
+[link-build]: https://github.com/JosephSilber/page-cache/actions
 [link-downloads]: https://packagist.org/packages/silber/page-cache
 [link-packagist]: https://packagist.org/packages/silber/page-cache
-[link-travis]: https://travis-ci.org/JosephSilber/page-cache
